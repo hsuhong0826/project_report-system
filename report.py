@@ -122,10 +122,6 @@ def send_email(to_email, staff_id, description, solution):
     if not current_config:
         return
 
-    # 如果信箱為未填寫，則不寄信
-    if to_email == "未填寫" or not to_email:
-        return
-
     sender = COMMON_CONFIG["sender_email"]
     subject = "報修完成處理"
     body = f"""您好：
@@ -140,7 +136,13 @@ def send_email(to_email, staff_id, description, solution):
 贊耀資訊"""
 
     msg = MIMEText(body, "plain", "utf-8")
-    recipients = [to_email] + current_config["extra_recipients"]
+
+    # 如果信箱為未填寫，則只寄給 extra_recipients，不寄給客戶
+    if to_email == "未填寫" or not to_email:
+        recipients = current_config["extra_recipients"]
+    else:
+        recipients = [to_email] + current_config["extra_recipients"]
+
     msg["From"] = sender
     msg["To"] = ", ".join(recipients)
     msg["Subject"] = Header(subject, "utf-8")
