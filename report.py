@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import smtplib
 from email.mime.text import MIMEText
+from email.header import Header
 
 # === 公司設定 ===
 COMPANIES = {
@@ -120,6 +121,11 @@ def upload_excel_to_nas(df, filename):
 def send_email(to_email, staff_id, description, solution):
     if not current_config:
         return
+
+    # 如果信箱為未填寫，則不寄信
+    if to_email == "未填寫" or not to_email:
+        return
+
     sender = COMMON_CONFIG["sender_email"]
     subject = "報修完成處理"
     body = f"""您好：
@@ -137,7 +143,7 @@ def send_email(to_email, staff_id, description, solution):
     recipients = [to_email] + current_config["extra_recipients"]
     msg["From"] = sender
     msg["To"] = ", ".join(recipients)
-    msg["Subject"] = subject
+    msg["Subject"] = Header(subject, "utf-8")
 
     try:
         with smtplib.SMTP(
@@ -161,7 +167,7 @@ def engineer_ui_nas():
             current_config = COMPANIES[selected_company]
             window.title(f"工程師報修處理系統 - {selected_company}")
             label_prefix.config(text=current_config["prefix"])
-            
+
             # 清空當前狀態
             df_main = None
             matched_row = None
@@ -276,16 +282,19 @@ def engineer_ui_nas():
     window.title("工程師報修處理系統 - 總控台")
     window.geometry("500x670")
 
-    tk.Label(window, text="工程師報修處理系統 (總控台)", font=("Arial", 16, "bold")).pack(
-        pady=10
-    )
+    tk.Label(
+        window, text="工程師報修處理系統 (總控台)", font=("Arial", 16, "bold")
+    ).pack(pady=10)
 
     # 公司選擇
     frame_company = tk.Frame(window)
     frame_company.pack(pady=5)
     tk.Label(frame_company, text="選擇公司：", font=("Arial", 12)).pack(side=tk.LEFT)
     company_combobox = ttk.Combobox(
-        frame_company, values=list(COMPANIES.keys()), font=("Arial", 12), state="readonly"
+        frame_company,
+        values=list(COMPANIES.keys()),
+        font=("Arial", 12),
+        state="readonly",
     )
     company_combobox.pack(side=tk.LEFT)
     company_combobox.bind("<<ComboboxSelected>>", on_company_change)
