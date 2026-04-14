@@ -11,6 +11,13 @@ from tkinter import messagebox, ttk
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
+import ctypes
+
+# 設定 DPI Awareness 以改善字體清晰度
+try:
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+except:
+    pass
 
 # === 公司設定 ===
 COMPANIES = {
@@ -73,6 +80,22 @@ COMPANIES = {
             "a3180709@ags-top.com",
             "sheep255174@gmail.com",
             "Zanyao.Service@msa.hinet.net",
+        ],
+    },
+    "呈豐營造": {
+        "prefix": "F",
+        "ftp_host": "192.168.101.253",
+        "ftp_port": 8821,
+        "ftp_user": "service",
+        "ftp_pass": "Zanyao0915",
+        "ftp_folder": "/ZY_MA_Recoder",
+        "main_excel": "ZY_MA_Recoder.xlsx",
+        "extra_recipients": [
+            "zanyao0925@gmail.com",
+            "sheep255174@gmail.com",
+            "Zanyao.Service@msa.hinet.net",
+            "a1090287@gmail.com",
+            "chengfeng97400798@gmail.com",
         ],
     },
 }
@@ -282,71 +305,83 @@ def engineer_ui_nas():
 
     window = tk.Tk()
     window.title("工程師報修處理系統 - 總控台")
-    window.geometry("500x670")
+
+    # 設定 Combobox 下拉清單的字體大小
+    window.option_add("*TCombobox*Listbox*Font", ("標楷體", 12))
+
+    window.resizable(False, False)
+    window.minsize(650, 800)
+
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    window.maxsize(screen_width, screen_height)
 
     tk.Label(
-        window, text="工程師報修處理系統 (總控台)", font=("Arial", 16, "bold")
+        window, text="工程師報修處理系統 (總控台)", font=("標楷體", 16, "bold")
     ).pack(pady=10)
 
     # 公司選擇
     frame_company = tk.Frame(window)
     frame_company.pack(pady=5)
-    tk.Label(frame_company, text="選擇公司：", font=("Arial", 12)).pack(side=tk.LEFT)
+    tk.Label(frame_company, text="選擇公司：", font=("標楷體", 12)).pack(side=tk.LEFT)
     company_combobox = ttk.Combobox(
         frame_company,
         values=list(COMPANIES.keys()),
-        font=("Arial", 12),
+        font=("標楷體", 12),
         state="readonly",
     )
     company_combobox.pack(side=tk.LEFT)
     company_combobox.bind("<<ComboboxSelected>>", on_company_change)
 
-    tk.Label(window, text="輸入報修單 ID：", font=("Arial", 12)).pack(pady=10)
+    tk.Label(window, text="輸入報修單 ID：", font=("標楷體", 12)).pack(pady=10)
 
     frame_id = tk.Frame(window)
     frame_id.pack()
 
-    label_prefix = tk.Label(frame_id, text="R", font=("Arial", 12))
+    label_prefix = tk.Label(frame_id, text="R", font=("標楷體", 12))
     label_prefix.grid(row=0, column=0)
 
-    entry_date = tk.Entry(frame_id, font=("Arial", 12), width=10)
+    entry_date = tk.Entry(frame_id, font=("標楷體", 12), width=10)
     entry_date.grid(row=0, column=1)
 
-    tk.Label(frame_id, text=" - ", font=("Arial", 12)).grid(row=0, column=2)
-    entry_number = tk.Entry(frame_id, font=("Arial", 12), width=5)
+    tk.Label(frame_id, text=" - ", font=("標楷體", 12)).grid(row=0, column=2)
+    entry_number = tk.Entry(frame_id, font=("標楷體", 12), width=5)
     entry_number.grid(row=0, column=3)
 
-    tk.Button(window, text="搜尋", command=search_report, font=("Arial", 12)).pack(
+    tk.Button(window, text="搜尋", command=search_report, font=("標楷體", 12)).pack(
         pady=5
     )
 
     frame_info = tk.Frame(window)
     frame_info.pack(pady=10)
-    tk.Label(frame_info, text="工號：", font=("Arial", 12)).grid(
+    tk.Label(frame_info, text="工號：", font=("標楷體", 12)).grid(
         row=0, column=0, sticky="e"
     )
-    label_staff = tk.Label(frame_info, text="", font=("Arial", 12))
+    label_staff = tk.Label(frame_info, text="", font=("標楷體", 12))
     label_staff.grid(row=0, column=1, sticky="w")
-    tk.Label(frame_info, text="信箱：", font=("Arial", 12)).grid(
+    tk.Label(frame_info, text="信箱：", font=("標楷體", 12)).grid(
         row=1, column=0, sticky="e"
     )
-    label_email = tk.Label(frame_info, text="", font=("Arial", 12))
+    label_email = tk.Label(frame_info, text="", font=("標楷體", 12))
     label_email.grid(row=1, column=1, sticky="w")
 
-    tk.Label(window, text="問題描述：", font=("Arial", 12)).pack()
-    text_desc = tk.Text(window, width=40, height=5, font=("Arial", 12), state="normal")
+    tk.Label(window, text="問題描述：", font=("標楷體", 12)).pack()
+    text_desc = tk.Text(window, width=40, height=5, font=("標楷體", 12), state="normal")
     text_desc.pack(pady=5)
 
-    tk.Label(window, text="處理方式：", font=("Arial", 12)).pack()
-    text_solution = tk.Text(window, width=40, height=7, font=("Arial", 12))
+    tk.Label(window, text="處理方式：", font=("標楷體", 12)).pack()
+    text_solution = tk.Text(window, width=40, height=7, font=("標楷體", 12))
     text_solution.pack(pady=5)
 
     tk.Button(
-        window, text="送出處理結果", font=("Arial", 12, "bold"), command=submit_solution
+        window,
+        text="送出處理結果",
+        font=("標楷體", 12, "bold"),
+        command=submit_solution,
     ).pack(pady=10)
 
     footer_label = tk.Label(
-        window, text="Copyright by ZY-Info V1.0", font=("Arial", 12)
+        window, text="Copyright by ZY-Info V1.1", font=("標楷體", 11, "bold")
     )
     footer_label.pack(side=tk.BOTTOM, anchor="e", padx=10, pady=10)
 
