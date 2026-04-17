@@ -84,7 +84,7 @@ COMPANIES = {
     },
     "呈豐營造": {
         "prefix": "F",
-        "ftp_host": "192.168.101.253",
+        "ftp_host": "192.168.181.253",
         "ftp_port": 8821,
         "ftp_user": "service",
         "ftp_pass": "Zanyao0915",
