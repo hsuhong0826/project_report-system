@@ -41,7 +41,7 @@ CONFIG = {
         "a1090287@gmail.com",
         "chengfeng97400798@gmail.com",
     ],
-    "ftp_host": "192.168.101.253",  # FTP IP
+    "ftp_host": "192.168.181.253",  # FTP IP
     "ftp_port": 8821,
     "ftp_username": "service",
     "ftp_password": "Zanyao0915",
