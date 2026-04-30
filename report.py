@@ -35,7 +35,7 @@ COMPANIES = {
             "sheep255174@gmail.com",
             "Zanyao.Service@msa.hinet.net",
             "hanna@yang-fa.com.tw",
-            "yf397@yang-fa.com.tw"
+            "yf397@yang-fa.com.tw",
         ],
     },
     "萬陽": {
