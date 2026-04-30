@@ -40,6 +40,7 @@ CONFIG = {
         "sheep255174@gmail.com",
         "Zanyao.Service@msa.hinet.net",
         "hanna@yang-fa.com.tw",
+        "yf397@yang-fa.com.tw",
     ],
     "ftp_host": "192.168.0.215",
     "ftp_port": 8821,
@@ -573,7 +574,7 @@ def main():
     submit_button.grid(row=12, column=0, columnspan=2, pady=(20, 20))
 
     footer_label = tk.Label(
-        root, text="Copyright by ZY-Info V1.6", font=("標楷體", 11, "bold")
+        root, text="Copyright by ZY-Info V1.7", font=("標楷體", 11, "bold")
     )
     footer_label.grid(row=13, column=1, sticky=tk.E, padx=10, pady=10)
 
