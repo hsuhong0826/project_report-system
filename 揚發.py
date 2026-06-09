@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
-
 
 import os
 import io
@@ -68,6 +66,7 @@ select_preview_label = None
 capture_preview_label = None
 attachment_preview_frame = None
 screenshot_preview_frame = None
+mobile_entry = None
 
 
 def clean_text(text):
@@ -101,6 +100,7 @@ def reset_fields():
     name_entry.delete(0, tk.END)
     staff_id_entry.delete(0, tk.END)
     email_entry.delete(0, tk.END)
+    mobile_entry.delete(0, tk.END)
     phone_entry.delete(0, tk.END)
     anydesk_entry.delete(0, tk.END)
     description_text.delete("1.0", tk.END)
@@ -287,6 +287,7 @@ def send_email(
     staff_id,
     email,
     phone,
+    mobile,
     anydesk,
     description,
     attachment_paths,
@@ -304,6 +305,7 @@ def send_email(
         f"辦公室: {office}\n"
         f"工號: {staff_id}\n"
         f"信箱: {email}\n"
+        f"手機號碼: {mobile}\n"
         f"電話(分機): {phone}\n"
         f"Anydesk號碼: {anydesk}\n"
         f"問題描述: {description}"
@@ -409,6 +411,7 @@ def submit_report():
         staff_id = clean_text(staff_id_entry.get() or "未填寫")
         email = clean_text(email_entry.get() or "未填寫")
         phone = clean_text(phone_entry.get() or "未填寫")
+        mobile = clean_text(mobile_entry.get() or "未填寫")
         anydesk = clean_text(anydesk_entry.get() or "未填寫")
         description = clean_text(
             description_text.get("1.0", tk.END).strip() or "未填寫"
@@ -455,6 +458,7 @@ def submit_report():
         staff_id,
         email,
         phone,
+        mobile,
         anydesk,
         description,
         attachment_paths,
@@ -471,7 +475,7 @@ def submit_report():
 
 def main():
     global root
-    global name_entry, staff_id_entry, email_entry, phone_entry, anydesk_entry
+    global name_entry, staff_id_entry, email_entry, mobile_entry, phone_entry, anydesk_entry
     global description_text, attachment_label
     global select_preview_label, capture_preview_label
     global attachment_preview_frame, screenshot_preview_frame
@@ -525,58 +529,64 @@ def main():
     email_entry = tk.Entry(root, width=40, font=("標楷體", 12))
     email_entry.grid(row=4, column=1, padx=(10, 50), pady=5)
 
-    tk.Label(root, text="電話(分機)：", font=("標楷體", 12)).grid(
+    tk.Label(root, text="手機號碼：", font=("標楷體", 12)).grid(
         row=5, column=0, padx=(50, 10), pady=5, sticky=tk.W
     )
-    phone_entry = tk.Entry(root, width=40, font=("標楷體", 12))
-    phone_entry.grid(row=5, column=1, padx=(10, 50), pady=5)
+    mobile_entry = tk.Entry(root, width=40, font=("標楷體", 12))
+    mobile_entry.grid(row=5, column=1, padx=(10, 50), pady=5)
 
-    tk.Label(root, text="Anydesk號碼：", font=("標楷體", 12)).grid(
+    tk.Label(root, text="電話(分機)：", font=("標楷體", 12)).grid(
         row=6, column=0, padx=(50, 10), pady=5, sticky=tk.W
     )
-    anydesk_entry = tk.Entry(root, width=40, font=("標楷體", 12))
-    anydesk_entry.grid(row=6, column=1, padx=(10, 50), pady=5)
+    phone_entry = tk.Entry(root, width=40, font=("標楷體", 12))
+    phone_entry.grid(row=6, column=1, padx=(10, 50), pady=5)
 
-    tk.Label(root, text="問題描述：", font=("標楷體", 12)).grid(
+    tk.Label(root, text="Anydesk號碼：", font=("標楷體", 12)).grid(
         row=7, column=0, padx=(50, 10), pady=5, sticky=tk.W
     )
+    anydesk_entry = tk.Entry(root, width=40, font=("標楷體", 12))
+    anydesk_entry.grid(row=7, column=1, padx=(10, 50), pady=5)
+
+    tk.Label(root, text="問題描述：", font=("標楷體", 12)).grid(
+        row=8, column=0, padx=(50, 10), pady=5, sticky=tk.W
+    )
     description_text = tk.Text(root, width=40, height=10, font=("標楷體", 12))
-    description_text.grid(row=7, column=1, padx=(10, 50), pady=5)
+    description_text.grid(row=8, column=1, padx=(10, 50), pady=5)
 
     tk.Button(root, text="選擇附件", command=select_image, font=("標楷體", 12)).grid(
-        row=8, column=0, pady=5, padx=(50, 10), sticky=tk.W
+        row=9, column=0, pady=5, padx=(50, 10), sticky=tk.W
     )
 
     select_preview_label = tk.Label(root, text="無附件預覽", font=("標楷體", 12))
-    select_preview_label.grid(row=8, column=1, padx=(10, 10), pady=5, sticky=tk.W)
+    select_preview_label.grid(row=9, column=1, padx=(10, 10), pady=5, sticky=tk.W)
 
     attachment_preview_frame = tk.Frame(root)
-    attachment_preview_frame.grid(row=8, column=1, padx=0, pady=10, sticky=tk.W)
+    attachment_preview_frame.grid(row=9, column=1, padx=0, pady=10, sticky=tk.W)
 
     tk.Button(
         root, text="畫面截圖", command=capture_screenshot, font=("標楷體", 12)
-    ).grid(row=9, column=0, pady=5, padx=(50, 10), sticky=tk.W)
+    ).grid(row=10, column=0, pady=5, padx=(50, 10), sticky=tk.W)
 
     capture_preview_label = tk.Label(root, text="無截圖預覽", font=("標楷體", 12))
-    capture_preview_label.grid(row=9, column=1, padx=(10, 10), pady=5, sticky=tk.W)
+    capture_preview_label.grid(row=10, column=1, padx=(10, 10), pady=5, sticky=tk.W)
 
     screenshot_preview_frame = tk.Frame(root)
-    screenshot_preview_frame.grid(row=9, column=1, padx=0, pady=10, sticky=tk.W)
+    screenshot_preview_frame.grid(row=10, column=1, padx=0, pady=10, sticky=tk.W)
 
     attachment_label = tk.Label(
         root, text="未選擇附件", font=("標楷體", 12), anchor="w"
     )
-    attachment_label.grid(row=11, column=0, padx=50, pady=5, sticky=tk.W)
+    attachment_label.grid(row=12, column=0, padx=50, pady=5, sticky=tk.W)
 
     submit_button = tk.Button(
         root, text="提交報修", command=submit_report, font=("標楷體", 14, "bold")
     )
-    submit_button.grid(row=12, column=0, columnspan=2, pady=(20, 20))
+    submit_button.grid(row=13, column=0, columnspan=2, pady=(20, 20))
 
     footer_label = tk.Label(
         root, text="Copyright by ZY-Info V1.7", font=("標楷體", 11, "bold")
     )
-    footer_label.grid(row=13, column=1, sticky=tk.E, padx=10, pady=10)
+    footer_label.grid(row=14, column=1, sticky=tk.E, padx=10, pady=10)
 
     root.mainloop()
 
