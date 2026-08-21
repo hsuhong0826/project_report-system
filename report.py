@@ -99,6 +99,21 @@ COMPANIES = {
             "chengfeng97400798@gmail.com",
         ],
     },
+    "雙緯企業": {
+        "prefix": "S",
+        "ftp_host": "192.168.0.112",
+        "ftp_port": 8821,
+        "ftp_user": "service",
+        "ftp_pass": "Zanyao0915",
+        "ftp_folder": "/ZY_MA_Recoder",
+        "main_excel": "ZY_MA_Recoder.xlsx",
+        "extra_recipients": [
+            "zanyao0925@gmail.com",
+            "sheep255174@gmail.com",
+            "Zanyao.Service@msa.hinet.net",
+            "cyy@greatsunway.com",
+        ],
+    },
 }
 
 # 共用設定
